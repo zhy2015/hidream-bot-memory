@@ -49,3 +49,7 @@
   2. 提取出有长期价值的规律、偏好、踩坑经验，合并写入核心 `MEMORY.md`。
   3. 将完成蒸馏的原始日志移动至 `memory/distilled/` 文件夹中。
 - **目标**：保证 `memory/daily/` 中只有最近 1-2 天的短期活跃上下文，其余历史流水账全部降级存储，核心经验向上提纯。
+
+### 4. 潜意识漫游 (Bot Dream Subroutine)
+- **触发时机**：如果前面的所有巡检（记忆下放、整理）都确认“无事可做”，执行 `python3 /root/.openclaw/workspace/skills/bot-dream/scripts/dreamer.py`。
+- **动作**：累加系统的“无聊指数”。当无聊指数达到 20 时，脚本会自动从冷记忆区抽出碎片生成“造梦指令”并写入 `AHA_MOMENTS.md`。主节点可择机将该指令下发给高温度的 Sub-agent 进行生成。
