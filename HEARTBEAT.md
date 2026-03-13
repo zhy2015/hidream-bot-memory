@@ -32,3 +32,12 @@
 
 ---
 *协议版本: v1.1 | 模式: 持续学习的信息节点*
+
+## 定时后台巡检任务 (每 24-48 小时执行一次)
+
+1. **Skill 软链接与重叠度审计 (Context Consolidation)**
+   - 调用 `memory-master` 中的归档/去重脚本。
+   - 扫描 `workspace/skills/` 目录，检查是否有最近 3 天新增的、功能重叠度高的平铺 Skill。如果有，自动触发重构，将其转化为软链接并向宿主汇报优化结果。
+2. **记忆碎片下放 (Project Context Delegate)**
+   - 扫描 `MEMORY.md` 和近期的 `memory/daily/` 日志。
+   - 如果发现包含大量“代码排障、报错日志、部署步骤”的内容，主动将其剪切并下放到对应项目的 `DEPLOY_MANUAL.md` 或 `PROJECT_MEMORY.md` 中，并 Commit 提交。
