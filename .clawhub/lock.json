@@ -76,6 +76,18 @@
     "qqmail": {
       "version": "1.0.0",
       "installedAt": 1773282729975
+    },
+    "proactive-agent-lite": {
+      "version": "1.0.0",
+      "installedAt": 1773412509870
+    },
+    "capability-evolver": {
+      "version": "1.29.5",
+      "installedAt": 1773412533831
+    },
+    "proactive-agent-skill": {
+      "version": "1.0.0",
+      "installedAt": 1773412564390
     }
   }
 }

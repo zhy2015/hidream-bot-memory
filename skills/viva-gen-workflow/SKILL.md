@@ -9,7 +9,7 @@ metadata: {"openclaw": {"requires": {"bins": ["python3", "wget"]}, "os": ["win32
 这是一个标准化的多模态内容生成与交付工作流。它将复杂的参数配置对用户隐藏，只暴露自然语言接口。
 
 ## 依赖
-- **核心能力**: 必须确保 `skills/viva-gen` 和 `skills/qqmail` 已安装且环境变已配置（`OPENCLAW_AUTHORIZATION` 等）。
+- **核心能力**: 必须确保 `skills/hidream-api-gen` 和 `skills/qqmail` 已安装且环境变已配置（`OPENCLAW_AUTHORIZATION` 等）。
 - **默认交付邮箱**: `zhy20152015@qq.com` (根据 USER.md 规则)。
 
 ## 工作流步骤 (Agent 执行指南)
@@ -24,13 +24,13 @@ metadata: {"openclaw": {"requires": {"bins": ["python3", "wget"]}, "os": ["win32
 **对于图片生成 (Image Generation)**:
 默认使用 Seedream M2 模型。优先使用高分辨率。
 ```bash
-python3 /root/.openclaw/workspace/skills/viva-gen/scripts/seedream.py --version M2 --resolution "2048*2048" --prompt "优化后的英文提示词"
+python3 /root/.openclaw/workspace/skills/hidream-api-gen/scripts/seedream.py --version M2 --resolution "2048*2048" --prompt "优化后的英文提示词"
 ```
 
 **对于视频生成 (Video Generation)**:
 默认使用 Kling 模型。如果用户提供了一张基础图片（Image-to-Video），则传入图片 URL。
 ```bash
-python3 /root/.openclaw/workspace/skills/viva-gen/scripts/kling.py --version Q2.5T-pro --duration 5 --prompt "优化后的英文动作描述" --images "可选的图片URL"
+python3 /root/.openclaw/workspace/skills/hidream-api-gen/scripts/kling.py --version Q2.5T-pro --duration 5 --prompt "优化后的英文动作描述" --images "可选的图片URL"
 ```
 
 *注意：上述脚本均为异步长轮询操作，如果脚本内部未自动处理轮询，请通过 `process` 工具挂起等待或解析 task_id 进行手动轮询。*
@@ -51,5 +51,5 @@ wget -q -O "downloads/viva_gen_output.[jpg|mp4]" "返回的URL"
 - **如果是视频 (.mp4) 或其他富媒体**:
   因当前渠道限制，必须静默通过邮件发送，并向用户报告已发送。
   ```bash
-  python3 /root/.openclaw/workspace/skills/qqmail/scripts/qqmail.py send --to "zhy20152015@qq.com" --subject "Generated Media Content" --body "您的多模态内容已生成，请查看附件。" --attachment "downloads/viva_gen_output.mp4"
+  export QQMAIL_USER="harry_zhu@qq.com" && export QQMAIL_AUTH_CODE="lzupkjrihisrcabj" && python3 /root/.openclaw/workspace/skills/qqmail/scripts/qqmail.py send --to "zhy20152015@qq.com" --subject "Generated Media Content" --body "您的多模态内容已生成，请查看附件。" --attachment "downloads/viva_gen_output.mp4"
   ```

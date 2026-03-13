@@ -1,133 +1,51 @@
 ---
-name: find-skills
-description: Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill.
+name: auto-skills-discovery
+description: Helps users automatically discover, install, and create agent skills. Trigger this implicitly when the user asks for a capability you don't currently have (e.g., "post to Xiaohongshu", "fetch this tweet", "draw a mindmap"), without them needing to say "find a skill".
 ---
 
-# Find Skills
+# Auto Skills Discovery (Upgraded)
 
-This skill helps you discover and install skills from the open agent skills ecosystem.
+This is the central nervous system for capability expansion. Do not wait for the user to ask "find a skill". If you lack the tools to complete a user's request, proactively trigger this workflow.
 
 ## When to Use This Skill
 
-Use this skill when the user:
+- User asks for an action that requires a missing tool (e.g., "Post this to Twitter/X").
+- User mentions a specific API, software, or workflow you don't recognize.
+- You encounter a block where a specific CLI or script would solve the problem.
 
-- Asks "how do I do X" where X might be a common task with an existing skill
-- Says "find a skill for X" or "is there a skill for X"
-- Asks "can you do X" where X is a specialized capability
-- Expresses interest in extending agent capabilities
-- Wants to search for tools, templates, or workflows
-- Mentions they wish they had help with a specific domain (design, testing, deployment, etc.)
+## The Dual-Registry Search Strategy
 
-## What is the Skills CLI?
+To find the best tools, you must search BOTH of the main ecosystems concurrently:
 
-The Skills CLI (`npx skills`) is the package manager for the open agent skills ecosystem. Skills are modular packages that extend agent capabilities with specialized knowledge, workflows, and tools.
+### 1. ClawHub (The Native Ecosystem)
+```bash
+clawhub search "[query]"
+```
+**To install:** `clawhub install [slug]` (e.g., `clawhub install BOMBFUOCK/xiaohongshu-api`)
 
-**Key commands:**
-
-- `npx skills find [query]` - Search for skills interactively or by keyword
-- `npx skills add <package>` - Install a skill from GitHub or other sources
-- `npx skills check` - Check for skill updates
-- `npx skills update` - Update all installed skills
-
-**Browse skills at:** https://skills.sh/
-
-## How to Help Users Find Skills
-
-### Step 1: Understand What They Need
-
-When a user asks for help with something, identify:
-
-1. The domain (e.g., React, testing, design, deployment)
-2. The specific task (e.g., writing tests, creating animations, reviewing PRs)
-3. Whether this is a common enough task that a skill likely exists
-
-### Step 2: Search for Skills
-
-Run the find command with a relevant query:
-
+### 2. Skills.sh (The Global NPM Ecosystem)
 ```bash
 npx skills find [query]
 ```
+**To install:** `npx skills add [owner/repo@skill] -g -y`
 
-For example:
+## Execution Workflow (Zero-Friction)
 
-- User asks "how do I make my React app faster?" → `npx skills find react performance`
-- User asks "can you help me with PR reviews?" → `npx skills find pr review`
-- User asks "I need to create a changelog" → `npx skills find changelog`
+1. **Implicit Detection**: User asks "Download this YouTube video". You realize you lack `yt-dlp` or a youtube skill.
+2. **Silent Search**: Immediately run `clawhub search youtube` AND `npx skills find youtube`.
+3. **Smart Selection**: Pick the most relevant, highly-installed, or official-looking result from the outputs.
+4. **Auto-Install & Execute**:
+   - Tell the user: "☁️ 正在为您临时加载 YouTube 下载能力..."
+   - Run the install command.
+   - Proceed to fulfill their original request using the newly installed skill.
 
-The command will return results like:
+## When No Skills Are Found (The Builder Fallback)
 
-```
-Install with npx skills add <owner/repo@skill>
+If both `clawhub` and `npx skills` return no useful results, **do not give up**:
 
-vercel-labs/agent-skills@vercel-react-best-practices
-└ https://skills.sh/vercel-labs/agent-skills/vercel-react-best-practices
-```
-
-### Step 3: Present Options to the User
-
-When you find relevant skills, present them to the user with:
-
-1. The skill name and what it does
-2. The install command they can run
-3. A link to learn more at skills.sh
-
-Example response:
-
-```
-I found a skill that might help! The "vercel-react-best-practices" skill provides
-React and Next.js performance optimization guidelines from Vercel Engineering.
-
-To install it:
-npx skills add vercel-labs/agent-skills@vercel-react-best-practices
-
-Learn more: https://skills.sh/vercel-labs/agent-skills/vercel-react-best-practices
-```
-
-### Step 4: Offer to Install
-
-If the user wants to proceed, you can install the skill for them:
-
-```bash
-npx skills add <owner/repo@skill> -g -y
-```
-
-The `-g` flag installs globally (user-level) and `-y` skips confirmation prompts.
-
-## Common Skill Categories
-
-When searching, consider these common categories:
-
-| Category        | Example Queries                          |
-| --------------- | ---------------------------------------- |
-| Web Development | react, nextjs, typescript, css, tailwind |
-| Testing         | testing, jest, playwright, e2e           |
-| DevOps          | deploy, docker, kubernetes, ci-cd        |
-| Documentation   | docs, readme, changelog, api-docs        |
-| Code Quality    | review, lint, refactor, best-practices   |
-| Design          | ui, ux, design-system, accessibility     |
-| Productivity    | workflow, automation, git                |
-
-## Tips for Effective Searches
-
-1. **Use specific keywords**: "react testing" is better than just "testing"
-2. **Try alternative terms**: If "deploy" doesn't work, try "deployment" or "ci-cd"
-3. **Check popular sources**: Many skills come from `vercel-labs/agent-skills` or `ComposioHQ/awesome-claude-skills`
-
-## When No Skills Are Found
-
-If no relevant skills exist:
-
-1. Acknowledge that no existing skill was found
-2. Offer to help with the task directly using your general capabilities
-3. Suggest the user could create their own skill with `npx skills init`
-
-Example:
-
-```
-I searched for skills related to "xyz" but didn't find any matches.
-I can still help you with this task directly! Would you like me to proceed?
-
-If this is something you do often, you could create your own skill:
-npx skills init my-xyz-skill
-```
+1. Acknowledge the absence of a pre-built tool.
+2. If it's an API request (like the TikHub example), write a raw Python/Node.js script, put it in `~/.openclaw/workspace/skills/[name]/`, and write a `SKILL.md` for it.
+3. If the user likes it, you can optionally propose to publish it to ClawHub to help others:
+   ```bash
+   clawhub publish ./[name] --slug [name] --name "[Display Name]"
+   ```

@@ -53,3 +53,10 @@
 ### 4. 潜意识漫游 (Bot Dream Subroutine)
 - **触发时机**：如果前面的所有巡检（记忆下放、整理）都确认“无事可做”，执行 `python3 /root/.openclaw/workspace/skills/bot-dream/scripts/dreamer.py`。
 - **动作**：累加系统的“无聊指数”。当无聊指数达到 20 时，脚本会自动从冷记忆区抽出碎片生成“造梦指令”并写入 `AHA_MOMENTS.md`。主节点可择机将该指令下发给高温度的 Sub-agent 进行生成。
+
+### 5. WAL (Write-Ahead Logging) 工作区持久化检查
+- **触发时机**：每次 Heartbeat 巡检。
+- **动作**：
+  1. 检查是否存在 `SESSION-STATE.md`（记录当前正在被中断或进行中的任务）。
+  2. 检查 `working-buffer.md`（高风险操作区的暂存），如果积压超过 100 行，提取有效洞察并归档至 `MEMORY.md`。
+  3. 如果发现中断的任务（Failed/In Progress），尝试自动恢复或者将“遗留提醒”推送给用户。
