@@ -41,3 +41,11 @@
 2. **记忆碎片下放 (Project Context Delegate)**
    - 扫描 `MEMORY.md` 和近期的 `memory/daily/` 日志。
    - 如果发现包含大量“代码排障、报错日志、部署步骤”的内容，主动将其剪切并下放到对应项目的 `DEPLOY_MANUAL.md` 或 `PROJECT_MEMORY.md` 中，并 Commit 提交。
+
+### 3. 日记蒸馏与归档 (Daily Journal Distillation)
+- **触发时机**：每天凌晨 (如判定当前时间大于当日工作结束) 或每天的第一次 Heartbeat 巡检。
+- **动作**：
+  1. 读取 `memory/daily/` 下未被蒸馏的日志（排除当天的进行中文件）。
+  2. 提取出有长期价值的规律、偏好、踩坑经验，合并写入核心 `MEMORY.md`。
+  3. 将完成蒸馏的原始日志移动至 `memory/distilled/` 文件夹中。
+- **目标**：保证 `memory/daily/` 中只有最近 1-2 天的短期活跃上下文，其余历史流水账全部降级存储，核心经验向上提纯。
