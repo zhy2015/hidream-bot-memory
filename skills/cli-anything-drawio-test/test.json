@@ -1,0 +1,14 @@
+{
+  "diagram": {
+    "type": "flowchart",
+    "nodes": [
+      {"id": "A", "label": "Start"},
+      {"id": "B", "label": "Process"},
+      {"id": "C", "label": "End"}
+    ],
+    "edges": [
+      {"from": "A", "to": "B"},
+      {"from": "B", "to": "C"}
+    ]
+  }
+}
