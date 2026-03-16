@@ -165,6 +165,8 @@ class DreamRequest(BaseModel):
     """周公解梦请求"""
     dream_desc: str = Field(..., min_length=10, max_length=2000,
                             description="梦境描述")
+    background: Optional[str] = Field(None, max_length=2000,
+                                      description="近期现实经历/背景上下文")
     
     @validator('dream_desc')
     def validate_dream(cls, v):

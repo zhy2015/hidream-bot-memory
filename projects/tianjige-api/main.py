@@ -313,7 +313,8 @@ async def dream_interpretation(
     system_prompt = get_prompt("dream")
     user_input = build_user_input(
         "dream",
-        dream_desc=request.dream_desc
+        dream_desc=request.dream_desc,
+        background=request.background
     )
     
     result = await call_llm(system_prompt, user_input, require_json=True)
