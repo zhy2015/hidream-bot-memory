@@ -26,15 +26,15 @@ assert.ok(redactString('use ghs_abcdefghijklmnopqrstuvwxyz1234567890 for auth').
   'ghs_ in sentence should be redacted');
 
 // AWS keys
-assert.ok(redactString('AKIAIOSFODNN7EXAMPLE').includes(REDACTED),
+assert.ok(redactString('AKIAIOSFODNN7EXAMPLEX').includes(REDACTED),
   'AWS access key should be redacted');
 
 // OpenAI project tokens
-assert.ok(redactString('sk-proj-bxOCXoWsaPj0IDE1yqlXCXIkWO1f').includes(REDACTED),
+assert.ok(redactString('sk-proj-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx').includes(REDACTED),
   'sk-proj- token should be redacted');
 
 // Anthropic tokens
-assert.ok(redactString('sk-ant-api03-abcdefghijklmnopqrst').includes(REDACTED),
+assert.ok(redactString('sk-ant-api03-xxxxxxxxxxxxxxxxxxxx').includes(REDACTED),
   'sk-ant- token should be redacted');
 
 // npm tokens
