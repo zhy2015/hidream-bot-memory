@@ -7,7 +7,12 @@ skills/viva-gen/
 test_*.py
 
 # In case there are large old projects hanging around
-projects/
+# Note: projects/ directory is used for URI project:// namespace
+# Only track MEMORY.md files, not the actual project code
+projects/*/
+!projects/*/MEMORY.md
+!projects/*/
+!projects/
 
 # Ignore node_modules / venvs globally
 node_modules/
