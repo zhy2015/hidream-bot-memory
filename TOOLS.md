@@ -33,8 +33,8 @@
 
 ## 📧 交付渠道
 - **SMTP Server**: `smtp.qq.com` (SSL: 465)
-- **Sender**: `harry_zhu@qq.com`
-- **Target**: `zhy20152015@qq.com`
+- **Sender**: `your_email@qq.com`
+- **Target**: `user@example.com`
 
 ---
 *Updated for Video Production Workflow*

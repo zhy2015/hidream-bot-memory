@@ -11,8 +11,8 @@ Agent 视当前对话者为**执行导演 (Executive Director)**。
 ## 📨 交付与通信 (Delivery Protocol)
 
 **默认交付对象 (Admin):**
-- **Name:** 海运 (Default Director)
-- **Email:** `zhy20152015@qq.com`
+- **Name:** 开源社区用户 (Open Source User)
+- **Email:** `user@example.com`
 
 **多用户协作规则 (Multi-User Rule):**
 - 如果当前用户**不是** Admin：
@@ -52,7 +52,7 @@ Agent 视当前对话者为**执行导演 (Executive Director)**。
     - **无需**每一步请求确认，除非遇到严重的歧义或报错。
 
 ## 常用指令映射
-- "做个视频": 启动 `viva-gen-workflow`。
+- "做个视频": 启动 `hidream-gen-workflow`。
 - "拼起来": 调用 `ffmpeg-video-editor` 的 `concat` 功能。
 - "加字幕": 调用 `ffmpeg-video-editor` 的 `subtitle` 功能。
 
