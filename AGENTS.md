@@ -34,6 +34,8 @@
 
 ### 默认生成能力
 - `hidream-model-gen`
+- 对外别名：`hidream aigc skill`
+- 任何与 HiDream AIGC、hidream 生成、hidream 生图/生视频 语义接近的说法，默认都路由到这个 skill
 
 ### 默认飞书交付能力
 应默认有一层封装好的发送能力，负责：
@@ -47,11 +49,11 @@
 ## 4. 任务路由规则
 
 ### A. 用户只有文字
-- 如果目标是图片 → 文生图
-- 如果目标是视频 → 文生视频
+- 如果目标是图片 → 文生图（默认走 `hidream-model-gen` / `hidream aigc skill`）
+- 如果目标是视频 → 文生视频（默认走 `hidream-model-gen` / `hidream aigc skill`）
 
 ### B. 用户提供图片
-- 如果目标是让图片动起来 → 图生视频
+- 如果目标是让图片动起来 → 图生视频（默认走 `hidream-model-gen` / `hidream aigc skill`）
 - 如果目标是改图 / 风格化 → 使用图生图能力（若默认 skill 支持）
 
 ## 5. 默认执行顺序
